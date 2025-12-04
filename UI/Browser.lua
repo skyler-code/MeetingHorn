@@ -779,6 +779,34 @@ function Browser:CreateActivityMenu(activity)
                 ChatFrame_SendTell(activity:GetLeader())
             end,
         },
+        {
+            text = "Copy Comment",
+            func = function()
+                if not StaticPopupDialogs['MEETINGHORN_COPY_COMMENT'] then
+                    StaticPopupDialogs['MEETINGHORN_COPY_COMMENT'] = {
+                        text = "Copy Comment",
+                        button1 = OKAY,
+                        timeout = 0,
+                        exclusive = 1,
+                        whileDead = 1,
+                        hideOnEscape = 1,
+                        hasEditBox = true,
+                        editBoxWidth = 260,
+                        EditBoxOnTextChanged = function(editBox, comment)
+                            if editBox:GetText() ~= comment then
+                                editBox:SetMaxBytes(0)
+                                editBox:SetMaxLetters(0)
+                                editBox:SetText(comment)
+                                editBox:HighlightText()
+                                editBox:SetCursorPosition(0)
+                                editBox:SetFocus()
+                            end
+                        end,
+                    }
+                end
+                StaticPopup_Show('MEETINGHORN_COPY_COMMENT', nil, nil, activity:GetComment())
+            end
+        },
          {isSeparator = true},
         {text = REPORT_PLAYER, isTitle = true},
         {
