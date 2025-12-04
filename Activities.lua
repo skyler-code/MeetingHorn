@@ -30,33 +30,33 @@ C('Other', OTHER)
 --[[@debug@
 C('Debug', 'Debug', nil, 'MeetingHornDebug')
 --@end-debug@]]
-
+function ns.BuildActivities()
 -- raid
 ---- wlk
-P(11, 1):raid2(3456, 4) -- 纳克萨玛斯
-P(11, 1):raid2(3456, 3) -- 纳克萨玛斯
-P(11, 1):raid2(4493, 4) -- 黑曜石圣殿
-P(11, 1):raid2(4493, 3) -- 黑曜石圣殿
-P(11, 1):raid2(4500, 4) -- 永恒之眼
-P(11, 1):raid2(4500, 3) -- 永恒之眼
-P(11, 2):raid2(4603, 4) -- 阿尔卡冯的宝库
-P(11, 2):raid2(4603, 3) -- 阿尔卡冯的宝库
-P(11, 2):raid2(4273, 4) -- 奥杜尔
-P(11, 2):raid2(4273, 3) -- 奥杜尔
-P(11, 3):raid2(4722, 4) -- 十字军的试炼
-P(11, 3):raid2(4722, 6) -- 十字军的试炼
-P(11, 3):raid2(4722, 3) -- 十字军的试炼
-P(11, 3):raid2(4722, 5) -- 十字军的试炼
-P(11, 4):raid2(2159, 4) -- 奥妮克希亚的巢穴
-P(11, 4):raid2(2159, 3) -- 奥妮克希亚的巢穴
-P(11, 5):raid2(4812, 4) -- 冰冠堡垒
-P(11, 5):raid2(4812, 6) -- 冰冠堡垒
-P(11, 5):raid2(4812, 3) -- 冰冠堡垒
-P(11, 5):raid2(4812, 5) -- 冰冠堡垒
-P(11, 6):raid2(4987, 4) -- 红玉圣殿
-P(11, 6):raid2(4987, 6) -- 红玉圣殿
-P(11, 6):raid2(4987, 3) -- 红玉圣殿
-P(11, 6):raid2(4987, 5) -- 红玉圣殿
+P(11, 1):raid2(3456, 4) -- Naxxramas
+P(11, 1):raid2(3456, 3) -- Naxxramas
+P(11, 1):raid2(4493, 4) -- The Obsidian Sanctum
+P(11, 1):raid2(4493, 3) -- The Obsidian Sanctum
+P(11, 1):raid2(4500, 4) -- The Eye of Eternity
+P(11, 1):raid2(4500, 3) -- The Eye of Eternity
+P(11, 2):raid2(4603, 4) -- Vault of Archavon
+P(11, 2):raid2(4603, 3) -- Vault of Archavon
+P(11, 2):raid2(4273, 4) -- Ulduar
+P(11, 2):raid2(4273, 3) -- Ulduar
+P(11, 3):raid2(4722, 4) -- Trial of the Crusader
+P(11, 3):raid2(4722, 6) -- Trial of the Crusader
+P(11, 3):raid2(4722, 3) -- Trial of the Crusader
+P(11, 3):raid2(4722, 5) -- Trial of the Crusader
+P(11, 4):raid2(2159, 4) -- Onyxia's Lair
+P(11, 4):raid2(2159, 3) -- Onyxia's Lair
+P(11, 5):raid2(4812, 4) -- Icecrown Citadel
+P(11, 5):raid2(4812, 6) -- Icecrown Citadel
+P(11, 5):raid2(4812, 3) -- Icecrown Citadel
+P(11, 5):raid2(4812, 5) -- Icecrown Citadel
+P(11, 6):raid2(4987, 4) -- Ruby Sanctum
+P(11, 6):raid2(4987, 6) -- Ruby Sanctum
+P(11, 6):raid2(4987, 3) -- Ruby Sanctum
+P(11, 6):raid2(4987, 5) -- Ruby Sanctum
 
 ---- tbc
 P(5, 1):raid(3457, 10) -- 卡拉赞
@@ -270,5 +270,6 @@ P():base(OTHER, 'Other') --
 --[[@debug@
 P():base('Debug', 'Debug')
 --@end-debug@]]
+end
 
 ns.Builder.End()

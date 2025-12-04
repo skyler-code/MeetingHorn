@@ -64,14 +64,14 @@ function Browser:Constructor()
     ns.GUI:GetClass('Dropdown'):Bind(self.SortMode)
 
     ns.ApplyImageButton(self.ApplyLeaderBtn, {
-        text = '申请星团长',
-        summary = '大神扫码 了解星团长',
+        text = L['申请星团长'],
+        summary = L['大神扫码 了解星团长'],
         texture = [[Interface/AddOns/MeetingHorn/Media/ApplyLeaderQR]],
         points = {'BOTTOMLEFT', self, 'BOTTOMRIGHT', 5, -25},
     })
     ns.ApplyImageButton(self.RechargeBtn, {
-        text = '直充专区',
-        summary = '支付宝/微信扫码登录充值更便捷时时有特惠',
+        text = L['直充专区'],
+        summary = L['支付宝/微信扫码登录充值更便捷时时有特惠'],
         texture = [[Interface/AddOns/MeetingHorn/Media/RechargeQR]],
         points = {'BOTTOMLEFT', self, 'BOTTOMRIGHT', 5, -25},
     })
@@ -106,6 +106,7 @@ function Browser:Constructor()
 
     -- @lkc@
     self:SetupQuickButton('MC')
+    self:SetupQuickButton('宝库')
     self:SetupQuickButton('熔火')
     self:SetupQuickButton('日常')
     self:SetupQuickButton('周常')
@@ -119,7 +120,7 @@ function Browser:Constructor()
     local  button = CreateFrame("Button", "Frame", self, "UIPanelButtonTemplate");
     button:SetSize(80, 25)
     button:SetPoint("BOTTOMRIGHT", self.Input, "TOPRIGHT", 0, -0);
-    button:SetText("保存搜索");
+    button:SetText(L["保存搜索"]);
     button:Show()
     button:SetScript("OnClick", function()
         local search = self.Input:GetText()
@@ -133,16 +134,16 @@ function Browser:Constructor()
 
     self.QuickSearchText = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightLeft")
     self.QuickSearchText:SetPoint("LEFT", self.Input, "RIGHT", 0, 5)
-    self.QuickSearchText:SetText('快捷搜索：')
+    self.QuickSearchText:SetText(L['快捷搜索：'])
 
     self.MySearchText = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightLeft")
     self.MySearchText:SetPoint("BOTTOM", self.QuickSearchText, "TOP", 0, 8)
-    self.MySearchText:SetText('我的搜索：')
+    self.MySearchText:SetText(L['我的搜索：'])
 
     self.Quick11 = CreateFrame("Button", nil, self, "MeetingHornQuickTemplate");
     self.Quick11:SetSize(35, 22)
     self.Quick11:SetPoint("BOTTOMLEFT", self.quicks[1], "TOPLEFT", 0, 0);
-    self.Quick11:SetText("战场")
+    self.Quick11:SetText(L["战场"])
     self.MySearchQuicks[1] = self.Quick11
 
     self.Quick12 = CreateFrame("Button", nil, self, "MeetingHornQuickTemplate");
@@ -154,7 +155,7 @@ function Browser:Constructor()
     self.Quick13 = CreateFrame("Button", nil, self, "MeetingHornQuickTemplate");
     self.Quick13:SetSize(35, 22)
     self.Quick13:SetPoint("LEFT", self.Quick12, "RIGHT", 5, 0);
-    self.Quick13:SetText("附魔")
+    self.Quick13:SetText(L["附魔"])
     self.MySearchQuicks[3] = self.Quick13
 
     local reversedQueue = self:GetQueueContents()
@@ -183,7 +184,7 @@ function Browser:Constructor()
     self.Mode:SetMaxItem(20)
 
     self.SortMode:SetMenuTable(ns.SORT_MODE_MENU)
-    self.SortMode:SetDefaultText("推荐排序")
+    self.SortMode:SetDefaultText(L["推荐排序"])
     self.SortMode:SetValue(1)
     self.SortMode:SetCallback('OnSelectChanged', Search)
     self.SortMode:SetMaxItem(20)
@@ -191,7 +192,7 @@ function Browser:Constructor()
     self.Input:HookScript('OnTextChanged', Search)
 
     self.VoiceActivity.VoiceActivityTitle:SetTextColor(1, 0.984, 0.863)
-    self.VoiceActivity.VoiceActivityTitle:SetText(VOICEICON.."语音开团快人一步")
+    self.VoiceActivity.VoiceActivityTitle:SetText(VOICEICON..L["语音开团快人一步"])
 
     self.VoiceActivityList = CreateFrame("ScrollFrame", "VoiceActivityList", self.VoiceActivity, "HybridScrollFrameTemplate")
     self.VoiceActivityList:SetPoint("TOPLEFT", self.VoiceActivity.VoiceActivityTitle, "BOTTOMLEFT", 0, 3)
@@ -323,6 +324,16 @@ function Browser:SetupQuickButton(search, index)
         self:QuickButtonOnClick(button)
     end)
     button:Show()
+    button:SetScript("OnEnter", function(btn)
+        local output = search
+        if rawget(L, search) then
+            output = L[search]
+        end
+        GameTooltip:SetOwner(btn, "ANCHOR_LEFT")
+        GameTooltip:SetText(output)
+        GameTooltip:Show()
+    end)
+    button:SetScript("OnLeave", GameTooltip_Hide)
     button.id = id
     button.search = search
 end
@@ -381,7 +392,11 @@ function Browser:OnItemFormatting(button, item, isVoice)
         button.Name:SetText(item:GetTitle())
         button.Leader:SetText(item:GetLeader())
         button.Comment:SetText(item:GetComment())
-        button.Mode:SetText(item:GetMode())
+        local modeText = item:GetMode()
+        if rawget(L, modeText) then
+            modeText = L[modeText]
+        end
+        button.Mode:SetText(modeText)
         local r, g, b = GetClassColor(item:GetLeaderClass())
         button.Leader:SetTextColor(r, g, b)
         --[=[@classic@
@@ -786,7 +801,7 @@ function Browser:CreateActivityMenu(activity)
         },
         {isSeparator = true},
         {
-            text = "打开语音房间",
+            text = L["打开语音房间"],
             func = function()
                 self:OpenVoiceRoom(activity)
             end,
@@ -809,7 +824,7 @@ function Browser:OpenVoiceRoom(activity)
             self.QRTooltip = CreateFrame('Frame', nil, self, 'MeetingHornActivityTooltipTemplate')
             self.QRTooltip:SetSize(240, 340)
             self.QRTooltip:SetPoint('TOPLEFT', self, 'TOPRIGHT', 0, 0)
-            self.QRTooltip.Text:SetText('如果您已安装网易DD客户端，将会自动进入该团长的语音频道。请稍等片刻…\n\n您也可以使用网易大神APP扫码下方二维码查看该团长的主页，了解有关TA的更多信息')
+            self.QRTooltip.Text:SetText(L['如果您已安装网易DD客户端，将会自动进入该团长的语音频道。请稍等片刻…\n\n您也可以使用网易大神APP扫码下方二维码查看该团长的主页，了解有关TA的更多信息'])
             self.QRTooltip.Text:ClearAllPoints()
             self.QRTooltip.Text:SetPoint('TOPLEFT', self.QRTooltip, "TOPLEFT", 8, -30)
             self.QRTooltip.Text:SetPoint('TOPRIGHT', self.QRTooltip, "BOTTOMRIGHT", -8, 8)

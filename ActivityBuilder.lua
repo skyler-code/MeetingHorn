@@ -9,12 +9,12 @@ local ns = select(2, ...)
 local L = ns.L
 
 local CATEGORY_LIST = {}
-local ACTIVITY_LIST = {}
+ ACTIVITY_LIST = {}
 local MODE_LIST = {}
 
 local CATEGORY_DATA = {}
 local OUR_CHANNELS = {}
-local ACTIVITY_IDS = {}
+ ACTIVITY_IDS = {}
 local MODE_IDS = {}
 
 ns.ACTIVITY_MENU = {}
@@ -22,9 +22,9 @@ ns.ACTIVITY_FILTER_MENU = {{text = ALL}}
 ns.MODE_MENU = {}
 ns.MODE_FILTER_MENU = {{text = ALL}}
 ns.SORT_MODE_MENU = {
-    {text = "推荐排序", value = 1},
-    {text = "星团长优先", value = 2},
-    {text = "最新发布", value = 3},
+    {text = L["推荐排序"], value = 1},
+    {text = L["星团长优先"], value = 2},
+    {text = L["最新发布"], value = 3},
 }
 
 local BASE_INTERVAL = 50
@@ -88,9 +88,9 @@ local SHORT_NAMES = {
     [4722] = 'TOC',
     [4812] = 'ICC',
     [4273] = 'ULD',
-    [4603] = '宝库',
+    [4603] = L['宝库'],
     [4493] = 'OS',
-    [4987] = '红玉',
+    [4987] = L['红玉'],
 }
 
 local SEARCH_MATCH = {['5H'] = {activityId = 'Dungeon', search = '英雄', input = '5H', name = '5H'}}
@@ -106,7 +106,20 @@ local DIFFICULTY_GROUP_SIZE = { --
 ---@class InstanceBuilder
 local InstanceBuilder = {projectId = nil, phase = nil}
 
-local function names(key, difficultyName)
+local locale = GetLocale()
+
+CHINESE_NAMES = {}
+
+local function GetDifficultyInfoWithT(id)
+    local difficultyName = GetDifficultyInfo(id):gsub('（', ''):gsub('）', '')
+    if locale == "zhCN" then
+        ns.Addon.db.global.chinese.difficulties[id] = difficultyName
+    end
+    return difficultyName
+end
+
+
+local function names(key, difficultyId)
     local id = tonumber(key)
     local r
     if id then
@@ -115,12 +128,25 @@ local function names(key, difficultyName)
         r = {L[key], SHORT_NAMES[key]}
     end
 
-    if difficultyName then
+    local difficultyName = ""
+    if difficultyId then
+        difficultyName = GetDifficultyInfoWithT(difficultyId)
         -- for i, v in ipairs(r) do
         --     r[i] = format('%s（%s）', v, difficultyName)
         -- end
         r[1] = format('%s（%s）', r[1], difficultyName)
     end
+    local translatedDifficultyName = difficultyName
+    if locale ~= "zhCN" and ns.Addon.db.global.chinese.difficulties[difficultyId] then
+        translatedDifficultyName = ns.Addon.db.global.chinese.difficulties[difficultyId]
+    end
+    local localeKey = key..translatedDifficultyName
+    if locale == "zhCN" then
+        ns.Addon.db.global.chinese.zones[localeKey] = r[1]
+    elseif ns.Addon.db.global.chinese.zones[localeKey] then
+        CHINESE_NAMES[ns.Addon.db.global.chinese.zones[localeKey]] = r[1]
+    end
+
     return r
 end
 
@@ -188,7 +214,7 @@ function InstanceBuilder:base(name, path, minLevel, members, class)
 end
 
 function InstanceBuilder:raid(key, members)
-    local members = members or self.projectId == 2 and 40 or 25
+    members = members or self.projectId == 2 and 40 or 25
     local minLevel = ns.PROJECT_DATA[self.projectId].maxLevel
     return self:base(names(key), 'Raid', minLevel, members)
 end
@@ -197,17 +223,15 @@ function InstanceBuilder:raid2(key, difficultyId)
     local difficultyName = GetDifficultyInfo(difficultyId):gsub('（', ''):gsub('）', '')
     local members = DIFFICULTY_GROUP_SIZE[difficultyId]
     local minLevel = ns.PROJECT_DATA[self.projectId].maxLevel
-    return self:base(names(key, difficultyName), 'Raid', minLevel, members)
+    return self:base(names(key, difficultyId), 'Raid', minLevel, members)
 end
 
 function InstanceBuilder:normal(key, minLevel, members)
-    local difficultyName = GetDifficultyInfo(1)
-    return self:base(names(key, difficultyName), 'Dungeon', minLevel, members or 5)
+    return self:base(names(key, 1), 'Dungeon', minLevel, members or 5)
 end
 
 function InstanceBuilder:hero(key, minLevel, members)
-    local difficultyName = GetDifficultyInfo(2)
-    return self:base(names(key, difficultyName), 'Dungeon', minLevel, members or 5)
+    return self:base(names(key, 2), 'Dungeon', minLevel, members or 5)
 end
 
 function InstanceBuilder:dungeon(key, minLevel, members)
@@ -370,7 +394,11 @@ function Builder.End()
     end
 
     for id, mode in ipairs(MODE_LIST) do
-        local menuItem = {text = mode, value = id}
+        local modeText = mode
+        if rawget(L, mode) then
+            modeText = L[mode]
+        end
+        local menuItem = {text = modeText, value = id}
         tinsert(ns.MODE_MENU, menuItem)
         tinsert(ns.MODE_FILTER_MENU, menuItem)
     end
@@ -381,6 +409,9 @@ end
 ns.Builder = Builder
 
 function ns.NameToId(name)
+    if CHINESE_NAMES[name] then
+        name = CHINESE_NAMES[name]
+    end
     return ACTIVITY_IDS[name]
 end
 

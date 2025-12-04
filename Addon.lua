@@ -73,6 +73,10 @@ function Addon:OnInitialize()
             activity = { --
                 filters = {},
             },
+            chinese = {
+                zones = {},
+                difficulties = {}
+            }
         },
         realm = {
             starRegiment = {
@@ -97,6 +101,7 @@ function Addon:OnInitialize()
     --@end-classic@]=]
 
     self:SetupHyperlink()
+    ns.BuildActivities()
 end
 
 function Addon:OnEnable()

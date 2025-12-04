@@ -1,5 +1,5 @@
 ---@class MeetingHornLocale
-local L = LibStub('AceLocale-3.0'):NewLocale('MeetingHorn', 'zhCN')
+local L = LibStub('AceLocale-3.0'):NewLocale('MeetingHorn', 'zhCN', true)
 if not L then
     return
 end
@@ -304,3 +304,48 @@ L.PALMTOP = [[
 您还可以向【掌上集结号】活动列表里的角色发起一键组队邀请。
 
 掌上集结未雨绸缪，跨端开团组队无忧！]]
+
+L['运势：'] = '运势：'
+L['指挥：'] = '指挥：'
+L['作为团长的次数：|cff808080（暴雪通行证下所有角色）|r'] = '作为团长的次数：|cff808080（暴雪通行证下所有角色）|r'
+L['视频攻略'] = '视频攻略'
+L['公正：'] = '公正：'
+L['团长ID：%s'] = '团长ID：%s'
+L['团长被评价数量较少，暂时无法查看。'] = "团长被评价数量较少，暂时无法查看。"
+L['没有查询到该团长数据~'] = '没有查询到该团长数据~'
+
+
+L['申请星团长'] = true
+L['直充专区'] = true
+L['支付宝/微信扫码登录充值更便捷时时有特惠'] = true
+L['熔火'] = true
+L['日常'] = true
+L['周常'] = true
+L['随机'] = true
+L['任务'] = true
+L['升级'] = true
+L['排本'] = true
+L['PVP'] = true
+L["保存搜索"] = true
+L['快捷搜索：'] = true
+L['我的搜索：'] = true
+L['MC'] = true
+L['大神扫码 了解星团长'] = true
+L["推荐排序"] = true
+L["星团长优先"] = true
+L["最新发布"] = true
+L["战场"] = true
+L["附魔"] = true
+L["推荐排序"] = true
+L["语音开团快人一步"] = true
+L['如果您已安装网易DD客户端，将会自动进入该团长的语音频道。请稍等片刻…\n\n您也可以使用网易大神APP扫码下方二维码查看该团长的主页，了解有关TA的更多信息'] = true
+L["带新"] = true
+L["自强"] = true
+L["Roll"] = true
+L["AA"] = true
+L["菜刀"] = true
+L["传送"] = true
+L["其它"] = true
+L["打开语音房间"] = true
+L['宝库'] = true
+L['红玉'] = true
