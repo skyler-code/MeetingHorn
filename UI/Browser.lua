@@ -389,7 +389,7 @@ function Browser:OnItemFormatting(button, item, isVoice)
         elseif inApplicant then
             state = L['Applicanted']
         end
-        button.Name:SetText(item:GetTitle())
+        button.Name:SetText(item:GetTitle():gsub('（', ' ('):gsub('）', ')'))
         button.Leader:SetText(item:GetLeader())
         button.Comment:SetText(item:GetComment())
         local modeText = item:GetMode()
@@ -488,7 +488,7 @@ function Browser:OnItemEnter(item)
     local r, g, b = GetClassColor(item:GetLeaderClass())
     GameTooltip:SetOwner(self, 'ANCHOR_NONE')
     GameTooltip:SetPoint('TOPLEFT', self, 'TOPRIGHT', 8, 60)
-    GameTooltip:SetText(item:GetTitle())
+    GameTooltip:SetText(item:GetTitle():gsub('（', ' ('):gsub('）', ')'))
     if item:GetCertificationLevel() and item:GetCertificationBgID() then
         GameTooltip:AddLine(LeaderName..format([[|TInterface\AddOns\MeetingHorn\Media\certification\%d\certification_icon:16:64:0:0:256:64:0:225:0:56|t]], item:GetCertificationBgID()),  r, g, b)
     else
