@@ -554,6 +554,7 @@ do
     function ns.ApplyImageButton(button, params)
         if params.text then
             button:SetText(params.text)
+            button:FitToText()
         end
         button.params = params
         button:SetScript('OnClick', ImageButtonOnClick)
