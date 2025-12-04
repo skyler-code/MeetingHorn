@@ -73,10 +73,7 @@ function Addon:OnInitialize()
             activity = { --
                 filters = {},
             },
-            chinese = {
-                zones = {},
-                difficulties = {}
-            }
+            chinese = ns.chineseZones or {}
         },
         realm = {
             starRegiment = {

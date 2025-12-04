@@ -5,4 +5,5 @@
 ## SavedVariables: MEETINGHORN_DB
 ## SavedVariablesPerCharacter: MEETINGHORN_DB_CHARACTER_MEMBERS
 
+Localization\zhCN_Zones.lua
 Load.xml
