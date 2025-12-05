@@ -311,7 +311,7 @@ function Builder.End()
         for i, v in ipairs(ACTIVITY_LIST) do
             if v.path == path and (not projectId or v.projectId == projectId) then
                 tinsert(result, {
-                    text = v.name,
+                    text = v.name:gsub('（', ' ('):gsub('）', ')'),
                     value = i,
                     disabled = isCreator and function()
                         return UnitLevel('player') < v.minLevel or (v.class and v.class ~= UnitClassBase('player')) or
