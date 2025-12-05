@@ -270,6 +270,6 @@ P():base(OTHER, 'Other') --
 --[[@debug@
 P():base('Debug', 'Debug')
 --@end-debug@]]
+ns.Builder.End()
 end
 
-ns.Builder.End()
