@@ -1,0 +1,1 @@
+To download: Code -> Download ZIP -> Extract to Interface/AddOns -> Remove "-main" from folder name
